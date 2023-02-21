@@ -41,8 +41,10 @@ namespace GradeBook.UserInterfaces
             }
             var name = parts[1];
             var gradebookType = parts[2];
-            BaseGradeBook gradeBook = new BaseGradeBook(name);
             //var weighted = parts[3];
+
+
+            BaseGradeBook gradeBook;
 
             if (gradebookType == "standard")
             {
