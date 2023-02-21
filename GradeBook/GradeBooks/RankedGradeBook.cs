@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GradeBook.GradeBooks
@@ -11,23 +12,28 @@ namespace GradeBook.GradeBooks
             Type = Enums.GradeBookType.Ranked;
         }
 
-        public char GetLetterGrade(double averageGrade)
+        public override char GetLetterGrade(double averageGrade)
         {
             if(Students.Count < 5)
             {
                 throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students to work");
             }
 
-            switch (averageGrade) {
-                case 0.2: return'A';
-                case double i when i > 0.2 && i < 0.4: return 'B';
-                case double i when i > 0.4 && i < 0.6 : return 'C';
-                case double i when i > 0.6 && i < 0.8: return 'C';
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
 
-                default: return 'F';
-            }
 
-            
+            if (averageGrade >= grades[threshold - 1])
+                return 'A';
+            if (averageGrade >= grades[(threshold * 2) - 1])
+                return 'B';
+            if (averageGrade >= grades[(threshold * 3) - 1])
+                return 'C';
+            if (averageGrade >= grades[(threshold * 4) - 1])
+                return 'C';
+
+            return 'F';
+
         }
     }
 }

@@ -135,6 +135,8 @@ namespace GradeBookTests
 
             gradeBook.GetType().GetProperty("Students").SetValue(gradeBook, students);
 
+            //var test = (char)method.Invoke(gradeBook, new object[] { 100 });
+
             //Test if A is given when input grade is in the top 20%.
             Assert.True((char)method.Invoke(gradeBook, new object[] { 100 }) == 'A', "`GradeBook.GradeBooks.RankedGradeBook.GetLetterGrade` didn't give an A to students in the top 20% of the class.");
 
